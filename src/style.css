@@ -57,8 +57,16 @@ h2 {
     cursor: pointer;
 }
 
-.grid div:hover{
+.grid .high-light{
     background-color: #00b4d8;
+}
+
+.grid .error-high-light, .grid .ship.error-high-light{
+    background-color: #fc6868;
+}
+
+.grid .ship{
+    background-color: #4e4e4e;
 }
 
 .grid-container{
