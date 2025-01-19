@@ -1,9 +1,19 @@
+let isHorizontal = false;
+
+function axisControl(){
+    const horizontalBtn = document.querySelector('.axis-control');
+    horizontalBtn.addEventListener('click', () =>{
+        isHorizontal = !isHorizontal;
+    });
+}
+
 function placeShip(shipLength, rowPrefix, columnIndex) {
     let shipOverlap = false;
     const targetCells = [];
+    
     for (let offset = 0; offset < shipLength; offset++) {
         const targetColumnIndex = columnIndex + offset;
-        const targetCellId = `${rowPrefix}${targetColumnIndex}`;
+        const targetCellId = !isHorizontal ? `${rowPrefix}${targetColumnIndex}` : `${targetColumnIndex}${rowPrefix}`;
         const targetCell = document.getElementById(targetCellId);
 
         if (targetCell.classList.contains('ship')) {
@@ -21,11 +31,11 @@ function placeShip(shipLength, rowPrefix, columnIndex) {
 
 function highlightAreaX(cell, mode = 'add') {
     const cellId = cell.id;
-    const isDoubleDigitRow = cellId.startsWith("10");
-    const columnIndex = isDoubleDigitRow
-        ? parseInt(cellId.slice(2))
-        : parseInt(cellId.slice(1));
-    const rowPrefix = isDoubleDigitRow ? "10" : cellId[0];
+    const isDoubleDigit = cellId.startsWith("10");
+    const columnIndex = isDoubleDigit ? parseInt(!isHorizontal ? cellId.slice(2) : "10") 
+    : parseInt(!isHorizontal ? cellId.slice(1) : cellId[0]);
+    
+    const rowPrefix = !isHorizontal ? (isDoubleDigit ? "10" : cellId[0]) : (isDoubleDigit ? cellId.slice(2) : cellId.slice(1));
     const highlightLength = 3;
     const maxColumnIndex = 10;
 
@@ -35,7 +45,8 @@ function highlightAreaX(cell, mode = 'add') {
 
     for (let offset = 0; offset < Math.min(highlightLength, 11 - columnIndex); offset++) {
         const targetColumnIndex = columnIndex + offset;
-        const targetCellId = `${rowPrefix}${targetColumnIndex}`;
+
+        const targetCellId = !isHorizontal ? `${rowPrefix}${targetColumnIndex}` : `${targetColumnIndex}${rowPrefix}`;
         const targetCell = document.getElementById(targetCellId);
 
         if (!targetCell) break;
@@ -47,8 +58,6 @@ function highlightAreaX(cell, mode = 'add') {
             targetCell.classList.add(
                 isWithinBounds && !shipOverlap ? 'high-light' : 'error-high-light'
             );
-            console.log("Row:" + rowPrefix);
-            console.log("Column:" + targetColumnIndex);
         }
 
         else if (mode === 'remove') {
@@ -59,7 +68,7 @@ function highlightAreaX(cell, mode = 'add') {
     if (mode === 'add' && isWithinBounds) {
         cell.addEventListener('click', () => {
             placeShip(highlightLength, rowPrefix, columnIndex);
-        });
+        }, {once: true });
     }
 }
 
@@ -71,5 +80,7 @@ function highlight() {
         cell.addEventListener('mouseout', () => highlightAreaX(cell, 'remove'));
     });
 }
+
+axisControl();
 
 export { highlight };
