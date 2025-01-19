@@ -1,20 +1,30 @@
 function placeShip(shipLength, rowPrefix, columnIndex) {
+    let shipOverlap = false;
+    const targetCells = [];
     for (let offset = 0; offset < shipLength; offset++) {
         const targetColumnIndex = columnIndex + offset;
         const targetCellId = `${rowPrefix}${targetColumnIndex}`;
         const targetCell = document.getElementById(targetCellId);
-        if (targetCell) {
-            targetCell.classList.add('ship');
+
+        if (targetCell.classList.contains('ship')) {
+            shipOverlap = true;
+            break;
         }
+
+        targetCells.push(targetCell);
     }
+
+    if (!shipOverlap)
+        targetCells.forEach(cell => cell.classList.add('ship'));
+
 }
 
 function highlightAreaX(cell, mode = 'add') {
     const cellId = cell.id;
     const isDoubleDigitRow = cellId.startsWith("10");
     const columnIndex = isDoubleDigitRow
-        ? parseInt(cellId.slice(2), 10)
-        : parseInt(cellId.slice(1), 10);
+        ? parseInt(cellId.slice(2))
+        : parseInt(cellId.slice(1));
     const rowPrefix = isDoubleDigitRow ? "10" : cellId[0];
     const highlightLength = 3;
     const maxColumnIndex = 10;
@@ -30,23 +40,26 @@ function highlightAreaX(cell, mode = 'add') {
 
         if (!targetCell) break;
 
-        if (targetCell.classList.contains('ship')) {
+        if (targetCell.classList.contains('ship'))
             shipOverlap = true;
-        }
 
         if (mode === 'add') {
             targetCell.classList.add(
                 isWithinBounds && !shipOverlap ? 'high-light' : 'error-high-light'
             );
-        } else if (mode === 'remove') {
+            console.log("Row:" + rowPrefix);
+            console.log("Column:" + targetColumnIndex);
+        }
+
+        else if (mode === 'remove') {
             targetCell.classList.remove('high-light', 'error-high-light');
         }
     }
 
-    if (mode === 'add' && isWithinBounds && !shipOverlap) {
+    if (mode === 'add' && isWithinBounds) {
         cell.addEventListener('click', () => {
             placeShip(highlightLength, rowPrefix, columnIndex);
-        }, { once: true });
+        });
     }
 }
 
