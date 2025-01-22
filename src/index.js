@@ -1,3 +1,3 @@
 import './style.css';
-import { highlight } from './DOMhandle';
-highlight();
+import { gameBoard } from './DOMhandle';
+gameBoard();

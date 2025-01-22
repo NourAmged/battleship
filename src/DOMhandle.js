@@ -1,8 +1,11 @@
+import { Ship } from './placeShip';
+let shipIdx = 0;
+
 let isHorizontal = false;
 
-function axisControl(){
+function axisControl() {
     const horizontalBtn = document.querySelector('.axis-control');
-    horizontalBtn.addEventListener('click', () =>{
+    horizontalBtn.addEventListener('click', () => {
         isHorizontal = !isHorizontal;
     });
 }
@@ -10,7 +13,7 @@ function axisControl(){
 function placeShip(shipLength, rowPrefix, columnIndex) {
     let shipOverlap = false;
     const targetCells = [];
-    
+
     for (let offset = 0; offset < shipLength; offset++) {
         const targetColumnIndex = columnIndex + offset;
         const targetCellId = !isHorizontal ? `${rowPrefix}${targetColumnIndex}` : `${targetColumnIndex}${rowPrefix}`;
@@ -24,26 +27,31 @@ function placeShip(shipLength, rowPrefix, columnIndex) {
         targetCells.push(targetCell);
     }
 
-    if (!shipOverlap)
+    if (!shipOverlap) {
         targetCells.forEach(cell => cell.classList.add('ship'));
+        const ids = targetCells.map((cell) => cell.id);
+        console.log(ids);
+        Ship(ids.length, ids);
+        shipIdx++;
+    }
 
 }
 
-function highlightAreaX(cell, mode = 'add') {
+function highlightArea(cell, mode = 'add') {
     const cellId = cell.id;
     const isDoubleDigit = cellId.startsWith("10");
-    const columnIndex = isDoubleDigit ? parseInt(!isHorizontal ? cellId.slice(2) : "10") 
-    : parseInt(!isHorizontal ? cellId.slice(1) : cellId[0]);
-    
+    const columnIndex = isDoubleDigit ? parseInt(!isHorizontal ? cellId.slice(2) : "10")
+        : parseInt(!isHorizontal ? cellId.slice(1) : cellId[0]);
+
     const rowPrefix = !isHorizontal ? (isDoubleDigit ? "10" : cellId[0]) : (isDoubleDigit ? cellId.slice(2) : cellId.slice(1));
-    const highlightLength = 3;
+    const shipLength = [2, 3, 3, 4, 5];
     const maxColumnIndex = 10;
 
-    const isWithinBounds = columnIndex + highlightLength - 1 <= maxColumnIndex;
+    const isWithinBounds = columnIndex + shipLength[shipIdx] - 1 <= maxColumnIndex;
 
     let shipOverlap = false;
 
-    for (let offset = 0; offset < Math.min(highlightLength, 11 - columnIndex); offset++) {
+    for (let offset = 0; offset < Math.min(shipLength[shipIdx], 11 - columnIndex); offset++) {
         const targetColumnIndex = columnIndex + offset;
 
         const targetCellId = !isHorizontal ? `${rowPrefix}${targetColumnIndex}` : `${targetColumnIndex}${rowPrefix}`;
@@ -67,20 +75,20 @@ function highlightAreaX(cell, mode = 'add') {
 
     if (mode === 'add' && isWithinBounds) {
         cell.addEventListener('click', () => {
-            placeShip(highlightLength, rowPrefix, columnIndex);
-        }, {once: true });
+            placeShip(shipLength[shipIdx], rowPrefix, columnIndex);
+        }, { once: true });
     }
 }
 
-function highlight() {
+function gameBoard() {
     const gridCells = document.querySelectorAll('.grid div');
 
     gridCells.forEach((cell) => {
-        cell.addEventListener('mouseover', () => highlightAreaX(cell, 'add'));
-        cell.addEventListener('mouseout', () => highlightAreaX(cell, 'remove'));
+        cell.addEventListener('mouseover', () => highlightArea(cell, 'add'));
+        cell.addEventListener('mouseout', () => highlightArea(cell, 'remove'));
     });
 }
 
 axisControl();
 
-export { highlight };
+export { gameBoard };
