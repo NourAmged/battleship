@@ -3,6 +3,19 @@ let shipIdx = 0;
 
 let isHorizontal = false;
 
+function generateGameBoard(mode) {
+    if (mode == "placement") {
+        const grid = document.querySelector('.grid');
+        for (let row = 1; row <= 10; row++) {
+            for (let column = 1; column <= 10; column++) {
+                const cell = document.createElement('div');
+                cell.id = `${row}${column}`;
+                grid.appendChild(cell);
+            }
+        }
+    }
+}
+
 function axisControl() {
     const horizontalBtn = document.querySelector('.axis-control');
     horizontalBtn.addEventListener('click', () => {
@@ -31,6 +44,10 @@ function placeShip(shipLength, rowPrefix, columnIndex) {
         targetCells.forEach(cell => cell.classList.add('ship'));
         const ids = targetCells.map((cell) => cell.id);
         console.log(ids);
+        // if(shipIdx == 4){
+
+        //     return;
+        // }
         Ship(ids.length, ids);
         shipIdx++;
     }
@@ -91,4 +108,4 @@ function gameBoard() {
 
 axisControl();
 
-export { gameBoard };
+export { generateGameBoard, gameBoard };

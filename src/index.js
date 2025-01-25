@@ -1,3 +1,4 @@
 import './style.css';
-import { gameBoard } from './DOMhandle';
+import { generateGameBoard, gameBoard } from './DOMhandle';
+generateGameBoard("placement");
 gameBoard();

@@ -14,7 +14,7 @@ function Ship(length, position) {
 // Hit Function
 function hit(position) {
     for (let pos = 0; pos < shipsPositions.length; pos++) {
-        if (shipsPositions[pos].includes(position)) { // Use includes to check for the position
+        if (shipsPositions[pos].includes(position)) { 
             ships[pos].hitCounter++;
             if (ships[pos].hitCounter === ships[pos].length) {
                 ships[pos].Sunk = true;
