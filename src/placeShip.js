@@ -1,30 +1,37 @@
-const shipsPositions = [];
-const ships = [];
+// placeShip.js
+const allyShipsPositions = [];
+const allyShips = [];
+const enemyShipsPositions = [];
+const enemyShips = [];
 
-
-function Ship(length, position) {
-    shipsPositions.push(position);
-    ships.push({
-        "Sunk": false,
-        "hitCounter": 0,
-        "length": length
-    });
-}
-
-// Hit Function
-function hit(position) {
-    for (let pos = 0; pos < shipsPositions.length; pos++) {
-        if (shipsPositions[pos].includes(position)) { 
-            ships[pos].hitCounter++;
-            if (ships[pos].hitCounter === ships[pos].length) {
-                ships[pos].Sunk = true;
-            }
-            break;
+function createShip(length, positions, player) {
+    const ship = {
+        length,
+        positions,
+        hits: new Set(),
+        get isSunk() {
+            return this.hits.size === this.length;
         }
+    };
+
+    if (player === 'ally') {
+        allyShipsPositions.push(...positions);
+        allyShips.push(ship);
+    } else if (player === 'enemy') {
+        enemyShipsPositions.push(...positions);
+        enemyShips.push(ship);
     }
 }
 
-// isSunk(){
-// }
+function registerHit(position, player) {
+    const ships = player === 'ally' ? allyShips : enemyShips;
+    for (const ship of ships) {
+        if (ship.positions.includes(position)) {
+            ship.hits.add(position);
+            return ship.isSunk;
+        }
+    }
+    return false;
+}
 
-export { Ship };
+export { createShip, registerHit };
