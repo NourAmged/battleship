@@ -1,22 +1,52 @@
-// gameBoard.js
 import { createShip } from './placeShip';
 
 let shipIdx = 0;
 let isHorizontal = false;
 const SHIP_LENGTHS = [2, 3, 3, 4, 5];
 
+
+function updateTitle() {
+    const title = document.querySelector('h2');
+    title.innerHTML = '';
+
+    const titleAllay = document.createElement('span');
+    const titleEnemy = document.createElement('span');
+
+    titleAllay.innerText = 'Allay Water';
+    titleEnemy.innerText = 'Enemy Water';
+
+    titleAllay.style.marginLeft = "18px";
+    titleEnemy.style.marginRight = "18px";
+
+    title.appendChild(titleAllay);
+    title.appendChild(titleEnemy);
+
+}
+
 function generateGameBoard(mode) {
-    if (mode === "placement") {
-        const grid = document.querySelector('.grid');
-        grid.innerHTML = ''; // Clear existing grid
-        for (let row = 1; row <= 10; row++) {
-            for (let column = 1; column <= 10; column++) {
-                const cell = document.createElement('div');
-                cell.id = `${row}${column}`;
-                grid.appendChild(cell);
-            }
+    let grid;
+    let gridContainer;
+
+    if (mode === "placement")
+        grid = document.querySelector('.grid');
+
+    else if (mode === "enemy") {
+        grid = document.createElement('div');
+        gridContainer = document.querySelector('.grid-container');
+        grid.className = 'grid';
+    }
+
+    for (let row = 1; row <= 10; row++) {
+        for (let column = 1; column <= 10; column++) {
+            const cell = document.createElement('div');
+            cell.id = `${row}${column}`;
+            grid.appendChild(cell);
         }
     }
+
+    if (mode === "enemy")
+        gridContainer.appendChild(grid);
+
 }
 
 function axisControl() {
@@ -28,14 +58,12 @@ function axisControl() {
 }
 
 function disableShipPlacement() {
-    const grid = document.querySelector('.grid');
     const gridCells = document.querySelectorAll('.grid div');
     const horizontalBtn = document.querySelector('.axis-control');
-    
-    grid.style.pointerEvents = 'none';
+
     horizontalBtn.style.display = 'none';
-    
-    gridCells.forEach((cell) => {
+
+    gridCells.forEach(cell => {
         cell.style.cursor = 'not-allowed';
     });
 }
@@ -56,7 +84,7 @@ function parseCellId(cellId) {
 function highlightArea(cell, mode = 'add') {
     const { row, col } = parseCellId(cell.id);
     const currentShipLength = SHIP_LENGTHS[shipIdx];
-    
+
     let isWithinBounds = false;
     const targetCells = [];
     let shipOverlap = false;
@@ -70,15 +98,15 @@ function highlightArea(cell, mode = 'add') {
     for (let offset = 0; offset < currentShipLength; offset++) {
         const targetRow = isHorizontal ? row : row + offset;
         const targetCol = isHorizontal ? col + offset : col;
-        
+
         if (targetRow > 10 || targetCol > 10) break;
 
         const targetCellId = `${targetRow}${targetCol}`;
         const targetCell = document.getElementById(targetCellId);
-        
+
         if (!targetCell) break;
         if (targetCell.classList.contains('ship')) shipOverlap = true;
-        
+
         targetCells.push(targetCell);
     }
 
@@ -109,7 +137,7 @@ function placeShip(startRow, startCol) {
     for (let offset = 0; offset < shipLength; offset++) {
         const targetRow = isHorizontal ? startRow : startRow + offset;
         const targetCol = isHorizontal ? startCol + offset : startCol;
-        
+
         if (targetRow > 10 || targetCol > 10) {
             shipOverlap = true;
             break;
@@ -130,9 +158,11 @@ function placeShip(startRow, startCol) {
         targetCells.forEach(cell => cell.classList.add('ship'));
         createShip(shipLength, targetCells.map(cell => cell.id), 'ally');
         shipIdx++;
-        
+
         if (shipIdx === SHIP_LENGTHS.length) {
             disableShipPlacement();
+            generateGameBoard("enemy");
+            updateTitle();
         }
     }
 }
