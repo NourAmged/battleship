@@ -17,11 +17,9 @@ function createShip(length, positions, player) {
     if (player === 'ally') {
         allyShipsPositions.push(...positions);
         allyShips.push(ship);
-        console.log(allyShips);
     } else if (player === 'enemy') {
         enemyShipsPositions.push(...positions);
         enemyShips.push(ship);
-        console.log(enemyShips);
     }
 }
 
