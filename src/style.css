@@ -7,71 +7,72 @@ body {
     background-color: rgb(27, 30, 34);
 }
 
-h1, h2 {
+h1,
+h2 {
     color: white;
     font-family: sans-serif;
     display: flex;
     justify-content: center;
 }
 
-h1{
+h1 {
     font-size: 4em;
     margin: 24px;
 }
 
 h2 {
-    margin: 18px;
     font-size: 1.5em;
-    justify-content: space-evenly;
     align-items: center;
+    justify-content: space-evenly;
 }
 
-.axis-control-container{
-   display: flex;
-   justify-content: center;  
+.axis-control-container {
+    display: flex;
+    justify-content: center;
 }
 
-.axis-control:hover{
+.axis-control:hover {
     background-color: #00b4d8;
     color: black;
 }
 
-.axis-control{
+.axis-control {
     font-size: 16px;
     margin: 20px;
     padding: 10px 20px 10px 20px;
     background-color: rgb(27, 30, 34);
-    border: 2px solid #00b4d8;;
-    color: #00b4d8;;
+    border: 2px solid #00b4d8;
+    color: #00b4d8;
     cursor: pointer;
 }
 
-.grid{
+.grid {
     display: grid;
     grid-template-rows: repeat(10, 40px);
     grid-template-columns: repeat(10, 40px);
     border: 3px solid white;
 }
 
-.grid div{
+.grid div {
     background-color: #0068c9;
     border: 2px solid white;
     cursor: pointer;
 }
 
-.grid .high-light{
+.grid .high-light {
     background-color: #00b4d8;
 }
 
-.grid .error-high-light, .grid .ship.error-high-light{
+.grid .error-high-light,
+.grid .ship.error-high-light {
     background-color: #fc6868;
 }
 
-.grid .ship{
+.grid .ship {
     background-color: #4e4e4e;
 }
 
-.grid-container{
+.grid-container {
     display: flex;
     margin: auto;
     align-items: center;

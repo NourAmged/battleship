@@ -1,4 +1,5 @@
 import { createShip } from './placeShip';
+import { highlightAreaEnemyBoard, generateEnemyShipPositions } from './enemyBoardDOM';
 
 let shipIdx = 0;
 let isHorizontal = false;
@@ -44,8 +45,10 @@ function generateGameBoard(mode) {
         }
     }
 
-    if (mode === "enemy")
+    if (mode === "enemy"){
         gridContainer.appendChild(grid);
+        highlightAreaEnemyBoard(grid.childNodes);
+    }
 
 }
 
@@ -162,6 +165,7 @@ function placeShip(startRow, startCol) {
         if (shipIdx === SHIP_LENGTHS.length) {
             disableShipPlacement();
             generateGameBoard("enemy");
+            generateEnemyShipPositions();
             updateTitle();
         }
     }
