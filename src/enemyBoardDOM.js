@@ -46,4 +46,5 @@ function generateEnemyShipPositions() {
     }
 
 }
+
 export { highlightAreaEnemyBoard, generateEnemyShipPositions };
