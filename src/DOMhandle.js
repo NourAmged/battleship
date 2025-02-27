@@ -1,6 +1,6 @@
 import { createShip } from './placeShip';
 import { highlightAreaEnemyBoard, generateEnemyShipPositions } from './enemyBoardDOM';
-import { allyAttack, enemyAttack } from './player';
+import { gameLoop} from './player';
 
 let shipIdx = 0;
 let isHorizontal = false;
@@ -167,9 +167,7 @@ function placeShip(startRow, startCol) {
             disableShipPlacement();
             generateGameBoard("enemy");
             generateEnemyShipPositions();
-            allyAttack();
-            // enemyAttack();
-            // gameLoop();
+            gameLoop();
             updateTitle();
         }
     }

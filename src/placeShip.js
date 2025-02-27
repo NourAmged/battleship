@@ -23,14 +23,11 @@ function createShip(length, positions, player) {
 }
 
 function registerHit(position, player) {
-    // const ships = player === 'ally' ? allyShips : enemyShips;
-    const ships = enemyShips;
+    const ships = player === 'ally' ? allyShips : enemyShips;
+    
     for (const ship of ships) {
         if (ship.positions.includes(position)) {
             ship.hits.add(position);
-            console.log(position);
-            console.log(enemyShips);
-            console.log(allyShips);
             return { hit: true, isSunk: ship.isSunk };
         }
     }
