@@ -3,6 +3,8 @@ const allyShips = [];
 const enemyShipsPositions = [];
 const enemyShips = [];
 
+
+
 function createShip(length, positions, player) {
     const ship = {
         length,
@@ -24,14 +26,15 @@ function createShip(length, positions, player) {
 
 function registerHit(position, player) {
     const ships = player === 'ally' ? allyShips : enemyShips;
-    
+
     for (const ship of ships) {
         if (ship.positions.includes(position)) {
             ship.hits.add(position);
-            return { hit: true, isSunk: ship.isSunk };
+            const allSunk = ships.every(ship => ship.isSunk);
+            return { hit: true, gameOver: allSunk };
         }
     }
-    return { hit: false, isSunk: false };
+    return { hit: false, gameOver: false };
 }
 
 export { createShip, registerHit };
