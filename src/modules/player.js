@@ -89,4 +89,4 @@ function gameLoop() {
     allyAttack();
 }
 
-export { allyAttack, enemyAttack, gameLoop, winMessage };
+export { allyAttack, enemyAttack, gameLoop};

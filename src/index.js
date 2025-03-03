@@ -1,5 +1,5 @@
 import './style.css';
-import { generateGameBoard, gameBoard } from './DOMhandle';
+import { generateGameBoard, gameBoard } from './modules/DOMhandle';
 
 
 generateGameBoard("placement");

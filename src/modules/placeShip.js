@@ -3,8 +3,6 @@ const allyShips = [];
 const enemyShipsPositions = [];
 const enemyShips = [];
 
-
-
 function createShip(length, positions, player) {
     const ship = {
         length,
