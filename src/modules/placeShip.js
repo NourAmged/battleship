@@ -35,5 +35,5 @@ function registerHit(position, player) {
     return { hit: false, gameOver: false };
 }
 
-export { createShip, registerHit };
+export { createShip, registerHit, allyShips, enemyShips };
 

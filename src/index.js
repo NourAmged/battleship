@@ -1,8 +1,9 @@
 import './style.css';
-import { generateGameBoard, gameBoard } from './modules/DOMhandle';
+import { generateGameBoard, gameBoard, axisControl } from './modules/DOMhandle';
 
 
 generateGameBoard("placement");
+axisControl();
 gameBoard();
 
 

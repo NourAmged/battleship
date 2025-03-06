@@ -72,6 +72,7 @@ function disableShipPlacement() {
     });
 }
 
+//test
 function parseCellId(cellId) {
     if (cellId.startsWith('10')) {
         return {
@@ -167,8 +168,8 @@ function placeShip(startRow, startCol) {
             disableShipPlacement();
             generateGameBoard("enemy");
             generateEnemyShipPositions();
-            gameLoop();
             updateTitle();
+            gameLoop();
         }
     }
 }
@@ -181,6 +182,6 @@ function gameBoard() {
     });
 }
 
-axisControl();
 
-export { generateGameBoard, gameBoard };
+export { generateGameBoard, gameBoard, axisControl, parseCellId};
+
