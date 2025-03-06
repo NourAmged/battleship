@@ -1,4 +1,4 @@
-import { parseCellId } from "../modules/DOMhandle";
+import { parseCellId } from "../src/modules/DOMhandle";
 
 describe("parseCellId", () => {
     test("normal id", () => {

@@ -1,4 +1,4 @@
-import { registerHit, allyShips, enemyShips, createShip } from "../modules/placeShip";
+import { registerHit, allyShips, enemyShips, createShip } from "../src/modules/placeShip";
 
 
 describe("registerHit", () => {
